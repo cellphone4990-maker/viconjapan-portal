@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GASPARDO SC Maria series | ビコンジャパン</title>
+<style>
+  :root{
+    --gaspardo-red:#e2231a;
+    --paper:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    padding:0;
+    background:#e9e9e9;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  }
+  .page-wrap{
+    max-width:560px;
+    margin:0 auto;
+    background:var(--paper);
+    box-shadow:0 0 24px rgba(0,0,0,0.12);
+    min-height:100vh;
+  }
+  .sheet{
+    position:relative;
+    display:block;
+    width:100%;
+    line-height:0; /* removes inline-image gap */
+  }
+  .sheet img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .divider{
+    height:6px;
+    background:var(--gaspardo-red);
+  }
+
+  /* Video sits exactly over the blue placeholder box designed into the flyer */
+  .inline-video{
+    position:absolute;
+    top:82.26%;
+    left:64.57%;
+    width:30.71%;
+    height:13.17%;
+    object-fit:cover;
+    display:block;
+    -webkit-tap-highlight-color:transparent;
+    cursor:pointer;
+  }
+
+  /* Modal overlay (tap the inline clip for a bigger, closer look) */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+  }
+  .modal-overlay.open{
+    display:flex;
+  }
+  .modal-video-wrap{
+    position:relative;
+    width:100%;
+    max-width:480px;
+  }
+  .modal-video-wrap video{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:8px;
+    background:#000;
+  }
+  .close-btn{
+    position:absolute;
+    top:-44px;
+    right:0;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.4);
+    color:#fff;
+    font-size:20px;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .modal-label{
+    color:#fff;
+    text-align:center;
+    font-size:13px;
+    margin-top:14px;
+    opacity:0.8;
+    letter-spacing:0.05em;
+  }
+</style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <div class="sheet">
+      <img src="page-1.jpg" alt="GASPARDO SC Maria series 表面">
+      <video
+        class="inline-video"
+        id="inlineVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto">
+        <source src="demo-inline.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sheet">
+      <img src="page-2.jpg" alt="GASPARDO SC Maria series 裏面">
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-video-wrap">
+      <button class="close-btn" id="closeModal" aria-label="閉じる">&times;</button>
+      <video id="modalVideo" playsinline muted loop preload="none" controls>
+        <source src="demo-full.mp4" type="video/mp4">
+      </video>
+      <div class="modal-label">SC Maria series ― 播種作業デモ</div>
+    </div>
+  </div>
+
+<script>
+  const overlay = document.getElementById('modalOverlay');
+  const inlineVideo = document.getElementById('inlineVideo');
+  const closeBtn = document.getElementById('closeModal');
+  const modalVideo = document.getElementById('modalVideo');
+
+  function openModal(){
+    overlay.classList.add('open');
+    modalVideo.currentTime = 0;
+    modalVideo.play().catch(()=>{});
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    modalVideo.pause();
+  }
+
+  // Tap the small looping clip to see it bigger
+  inlineVideo.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay){ closeModal(); }
+  });
+
+  // Safari sometimes needs an explicit nudge to start inline autoplay
+  document.addEventListener('DOMContentLoaded', function(){
+    inlineVideo.play().catch(()=>{});
+  });
+</script>
+
+</body>
+</html>
