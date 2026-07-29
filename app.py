@@ -22,7 +22,7 @@ st.set_page_config(page_title="トラクター・作業機 総合適合判定シ
 
 if "preset_tractors" not in st.session_state:
     st.session_state.preset_tractors = {
-        "1": {"name": "トラクター1", "weight": 1500, "front_weight": 150, "wheelbase": 1600, "f_dist": 600, "r_pin": 500, "height": 2000, "f_area": 200, "r_area": 400, "allow_pressure": 0.80},
+        "トラクター1": {"name": "トラクター1", "weight": 1500, "front_weight": 150, "wheelbase": 1600, "f_dist": 600, "r_pin": 500, "height": 2000, "f_area": 200, "r_area": 400, "allow_pressure": 0.80},
         "トラクター2": {"name": "トラクター2", "weight": 2500, "front_weight": 300, "wheelbase": 2000, "f_dist": 800, "r_pin": 600, "height": 2200, "f_area": 300, "r_area": 600, "allow_pressure": 1.00},
         "トラクター3": {"name": "トラクター3", "weight": 4200, "front_weight": 500, "wheelbase": 2400, "f_dist": 950, "r_pin": 750, "height": 2500, "f_area": 450, "r_area": 900, "allow_pressure": 1.20}
     }
