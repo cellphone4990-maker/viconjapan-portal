@@ -1,8 +1,28 @@
+import os
+import urllib.request
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.font_manager as fm
 import streamlit.components.v1 as components
-import japanize_matplotlib  # これを追加するだけでMatplotlibが日本語に対応します
+
+# ==========================================
+# 日本語フォントの自動ダウンロード＆設定
+# ==========================================
+FONT_URL = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf"
+FONT_NAME = "NotoSansCJKjp-Regular.otf"
+
+if not os.path.exists(FONT_NAME):
+    # User-Agentを指定してHTTP 403 Forbiddenなどのエラーを回避
+    req = urllib.request.Request(
+        FONT_URL, 
+        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+    )
+    with urllib.request.urlopen(req) as response, open(FONT_NAME, 'wb') as out_file:
+        out_file.write(response.read())
+
+fm.fontManager.addfont(FONT_NAME)
+plt.rcParams['font.family'] = 'Noto Sans CJK JP'
 
 st.set_page_config(page_title="トラクター・作業機 総合適合判定システム", layout="wide")
 
