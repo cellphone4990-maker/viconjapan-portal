@@ -3,21 +3,16 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import streamlit.components.v1 as components
 import matplotlib.font_manager as fm
+import os
 
-# 日本語フォントの自動読み込み設定
-fonts = [f.name for f in fm.fontManager.ttflist]
-japanese_fonts = [f for f in fonts if 'Gothic' in f or 'Mincho' in f or 'IPA' in f or 'Hiragino' in f or 'Yu' in f]
+# GitHubに置いたフォントファイルを直接読み込む
+font_path = "NotoSansJP.ttf"
 
-if japanese_fonts:
-    plt.rcParams['font.family'] = japanese_fonts[0]
+if os.path.exists(font_path):
+    fm.fontManager.addfont(font_path)
+    plt.rcParams['font.family'] = fm.FontProperties(fname=font_path).get_name()
 
 plt.rcParams['axes.unicode_minus'] = False
-
-# 日本語フォント設定（Matplotlib）
-# (ここから下に st.set_page_config(...) などの元々のコードが続きます)
-
-# 日本語フォント設定 (Matplotlib)
-plt.rcParams['font.family'] = 'Hiragino Sans'
 
 st.set_page_config(page_title="トラクター・作業機 総合適合判定システム", layout="wide")
 
