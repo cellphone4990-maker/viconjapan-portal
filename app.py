@@ -2,7 +2,12 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import streamlit.components.v1 as components
-import japanize_matplotlib_plus
+
+# 日本語フォントの設定（japanize_matplotlibの安全な読み込み）
+try:
+    import japanize_matplotlib
+except ImportError:
+    pass
 
 # 日本語フォント設定 (Matplotlib)
 plt.rcParams['font.family'] = 'Hiragino Sans'
