@@ -147,63 +147,64 @@ with col_right:
     truck_wid = st.number_input("荷台幅 (mm)", value=truck_data["width"], step=50)
 
 # --- 計算ロジック ---
-# 前後軸重の計算
-# 軸力モーメント計算: 
-# (前輪軸中心を原点 0 としたモーメント計算)
 total_weight = t_weight + t_front_w + i_total_w
 rear_axle_load = ( (t_weight * (t_wheelbase / 2)) + (i_total_w * (t_wheelbase + t_r_pin + i_cog_dist)) - (t_front_w * t_f_dist) ) / t_wheelbase
 front_axle_load = total_weight - rear_axle_load
 
-# 接地圧計算 (1輪あたりの重量 / 接地面積)
 f_pressure = (front_axle_load / 2) / f_area if f_area > 0 else 0
 r_pressure = (rear_axle_load / 2) / r_area if r_area > 0 else 0
 max_actual_pressure = max(f_pressure, r_pressure)
 
-# 適合判定
 is_pressure_ok = max_actual_pressure <= allow_pressure
 is_truck_weight_ok = total_weight <= truck_cap
 is_truck_size_ok = (i_width <= truck_wid) and ((t_wheelbase + t_f_dist + t_r_pin + i_length) <= truck_len)
 
 # --- 左側：イラスト・描画・判定カード領域 ---
 with col_left:
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.set_aspect('equal')
+    fig, ax = plt.subplots(figsize=(10, 7.5))
     ax.axis('off')
 
-    # 背景・車両描画（簡易イメージ）
-    # 車体描画
-    ax.add_patch(patches.Rectangle((0.2, 0.3), 0.5, 0.3, facecolor='#1E88E5', edgecolor='black', linewidth=2))
-    # 作業機描画
-    ax.add_patch(patches.Rectangle((0.7, 0.35), 0.2, 0.25, facecolor='#FF8F00', edgecolor='black', linewidth=2))
-    # ウェイト描画
-    ax.add_patch(patches.Rectangle((0.1, 0.35), 0.1, 0.15, facecolor='#757575', edgecolor='black', linewidth=2))
-    # 前輪・後輪
-    ax.add_patch(patches.Circle((0.3, 0.25), 0.12, facecolor='#212121', edgecolor='black', linewidth=2))
-    ax.add_patch(patches.Circle((0.65, 0.28), 0.16, facecolor='#212121', edgecolor='black', linewidth=2))
+    # トラクター外枠破線
+    ax.add_patch(patches.Rectangle((0.15, 0.2), 0.7, 0.55, fill=False, edgecolor='#666666', linestyle='--', linewidth=2.5))
 
-    # 接地圧テキスト表示
-    f_p_text = f"{f_pressure:.2f}"
-    r_p_text = f"{r_pressure:.2f}"
-    
-    # 前輪接地圧ボックス
-    ax.text(0.3, 0.7, f"前輪接地圧\n{f_p_text} kg/cm²", fontsize=11, ha='center', va='center',
-            bbox=dict(boxstyle='round,pad=0.5', facecolor='#E53935' if f_pressure > allow_pressure else '#43A047', alpha=0.8, edgecolor='none'), color='white', weight='bold')
-    # 後輪接地圧ボックス
-    ax.text(0.65, 0.7, f"後輪接地圧\n{r_p_text} kg/cm²", fontsize=11, ha='center', va='center',
-            bbox=dict(boxstyle='round,pad=0.5', facecolor='#E53935' if r_pressure > allow_pressure else '#43A047', alpha=0.8, edgecolor='none'), color='white', weight='bold')
+    # 前輪・後輪 ボックス（赤背景・角丸）
+    # 左上（前輪）
+    ax.add_patch(patches.FancyBboxPatch((0.1, 0.52), 0.2, 0.28, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor='#E54D53', edgecolor='black', linewidth=2))
+    ax.text(0.2, 0.68, "前輪", fontsize=13, ha='center', va='center', color='white', weight='bold')
+    ax.text(0.2, 0.59, f"{f_pressure:.2f}", fontsize=18, ha='center', va='center', color='white', weight='bold')
 
-    # 中央総合判定ボックス
-    status_text = "判定：適合" if is_pressure_ok else "判定：不適合"
-    ax.text(0.48, 0.45, f"{status_text}\n最大 {max_actual_pressure:.2f} kg/cm²", fontsize=13, ha='center', va='center',
-            bbox=dict(boxstyle='round,pad=0.6', facecolor='#FFCDD2' if not is_pressure_ok else '#C8E6C9', edgecolor='#E53935' if not is_pressure_ok else '#2E7D32', linewidth=2),
-            color='#B71C1C' if not is_pressure_ok else '#1B5E20', weight='bold')
+    # 左下（前輪）
+    ax.add_patch(patches.FancyBboxPatch((0.1, 0.15), 0.2, 0.28, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor='#E54D53', edgecolor='black', linewidth=2))
+    ax.text(0.2, 0.31, "前輪", fontsize=13, ha='center', va='center', color='white', weight='bold')
+    ax.text(0.2, 0.22, f"{f_pressure:.2f}", fontsize=18, ha='center', va='center', color='white', weight='bold')
 
-    # 車両合計重量タグ
-    ax.text(0.05, 0.9, f"車両合計重量: {total_weight:.0f} kg", fontsize=12, bbox=dict(boxstyle='round,pad=0.3', facecolor='white', edgecolor='#B0BEC5', alpha=0.9))
+    # 右上（後輪）
+    ax.add_patch(patches.FancyBboxPatch((0.7, 0.52), 0.2, 0.28, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor='#E54D53', edgecolor='black', linewidth=2))
+    ax.text(0.8, 0.68, "後輪", fontsize=13, ha='center', va='center', color='white', weight='bold')
+    ax.text(0.8, 0.59, f"{r_pressure:.2f}", fontsize=18, ha='center', va='center', color='white', weight='bold')
 
-    ax.set_xlim(-0.05, 1.0)
+    # 右下（後輪）
+    ax.add_patch(patches.FancyBboxPatch((0.7, 0.15), 0.2, 0.28, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor='#E54D53', edgecolor='black', linewidth=2))
+    ax.text(0.8, 0.31, "後輪", fontsize=13, ha='center', va='center', color='white', weight='bold')
+    ax.text(0.8, 0.22, f"{r_pressure:.2f}", fontsize=18, ha='center', va='center', color='white', weight='bold')
+
+    # 中央 判定ボックス
+    status_label = "判定：適合" if is_pressure_ok else "判定：不適合"
+    bg_color = '#FCE8E6' if not is_pressure_ok else '#E6F4EA'
+    border_color = '#D93025' if not is_pressure_ok else '#137333'
+    text_color = '#D93025' if not is_pressure_ok else '#137333'
+
+    ax.add_patch(patches.FancyBboxPatch((0.25, 0.35), 0.5, 0.22, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor=bg_color, edgecolor=border_color, linewidth=2.5))
+    ax.text(0.5, 0.48, status_label, fontsize=18, ha='center', va='center', color=text_color, weight='bold')
+    ax.text(0.5, 0.40, f"最大 {max_actual_pressure:.2f} kg/cm² 許容値内", fontsize=15, ha='center', va='center', color=text_color, weight='bold')
+
+    # 左上 車両合計重量タグ
+    ax.add_patch(patches.FancyBboxPatch((0.05, 0.85), 0.35, 0.1, boxstyle="round,pad=0.01,rounding_size=0.03", facecolor='white', edgecolor='#B0BEC5', linewidth=1.5))
+    ax.text(0.225, 0.90, f"車両合計重量: {total_weight:.0f} kg", fontsize=14, ha='center', va='center', color='#374151')
+
+    ax.set_xlim(0.0, 1.0)
     ax.set_ylim(0.0, 1.0)
-    
+
     st.pyplot(fig)
 
     # 総合適合判定サマリーカード
