@@ -32,23 +32,23 @@ st.set_page_config(page_title="トラクター・作業機 総合適合判定シ
 
 if "preset_tractors" not in st.session_state:
     st.session_state.preset_tractors = {
-        "トラクター1": {"name": "トラクター1", "weight": 1500, "front_weight": 150, "wheelbase": 1600, "f_dist": 600, "r_pin": 500, "height": 1900, "width": 1400, "f_area": 200, "r_area": 400},
-        "トラクター2": {"name": "トラクター2", "weight": 2500, "front_weight": 300, "wheelbase": 2000, "f_dist": 800, "r_pin": 600, "height": 2400, "width": 1800, "f_area": 250, "r_area": 500},
-        "トラクター3": {"name": "トラクター3", "weight": 4200, "front_weight": 500, "wheelbase": 2400, "f_dist": 950, "r_pin": 750, "height": 2800, "width": 2200, "f_area": 350, "r_area": 700}
+        "1": {"name": "トラクター1", "weight": 1500, "front_weight": 150, "wheelbase": 1600, "f_dist": 600, "r_pin": 500, "height": 1900, "width": 1400, "f_area": 200, "r_area": 400},
+        "2": {"name": "トラクター2", "weight": 2500, "front_weight": 300, "wheelbase": 2000, "f_dist": 800, "r_pin": 600, "height": 2400, "width": 1800, "f_area": 250, "r_area": 500},
+        "3": {"name": "トラクター3", "weight": 4200, "front_weight": 500, "wheelbase": 2400, "f_dist": 950, "r_pin": 750, "height": 2800, "width": 2200, "f_area": 350, "r_area": 700}
     }
 
 if "preset_implements" not in st.session_state:
     st.session_state.preset_implements = {
-        "作業機1": {"name": "作業機1", "dry_weight": 300, "total_weight": 350, "pin_dist": 400, "width": 1600, "add_len": 1200, "height": 1000},
-        "作業機2": {"name": "作業機2", "dry_weight": 700, "total_weight": 800, "pin_dist": 500, "width": 2200, "add_len": 1800, "height": 1200},
-        "作業機3": {"name": "作業機3", "dry_weight": 1200, "total_weight": 1400, "pin_dist": 650, "width": 2500, "add_len": 2200, "height": 1500}
+        "1": {"name": "作業機1", "dry_weight": 300, "total_weight": 350, "pin_dist": 400, "width": 1600, "add_len": 1200, "height": 1000},
+        "2": {"name": "作業機2", "dry_weight": 700, "total_weight": 800, "pin_dist": 500, "width": 2200, "add_len": 1800, "height": 1200},
+        "3": {"name": "作業機3", "dry_weight": 1200, "total_weight": 1400, "pin_dist": 650, "width": 2500, "add_len": 2200, "height": 1500}
     }
 
 if "preset_trucks" not in st.session_state:
     st.session_state.preset_trucks = {
-        "トラック1": {"name": "トラック1", "payload": 2000, "bed_h": 750, "bed_l": 3100, "bed_w": 1600},
-        "トラック2": {"name": "トラック2", "payload": 3500, "bed_h": 850, "bed_l": 4300, "bed_w": 1900},
-        "トラック3": {"name": "トラック3", "payload": 7000, "bed_h": 950, "bed_l": 6000, "bed_w": 2350}
+        "1": {"name": "トラック1", "payload": 2000, "bed_h": 750, "bed_l": 3100, "bed_w": 1600},
+        "2": {"name": "トラック2", "payload": 3500, "bed_h": 850, "bed_l": 4300, "bed_w": 1900},
+        "3": {"name": "トラック3", "payload": 7000, "bed_h": 950, "bed_l": 6000, "bed_w": 2350}
     }
 
 # 初回起動時のフォーム数値初期化
