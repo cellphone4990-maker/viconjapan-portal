@@ -1,26 +1,8 @@
-import os
-import urllib.request
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import streamlit.components.v1 as components
-import matplotlib.font_manager as fm
-
-# ==========================================
-# 日本語フォント設定 (フォント自動ダウンロード＆適用)
-# ==========================================
-FONT_NAME = "IPAexGothic.ttf"
-FONT_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/ipaexgothic/ipaexgothic.ttf"
-
-# フォントファイルが無ければダウンロード
-if not os.path.exists(FONT_NAME):
-    urllib.request.urlretrieve(FONT_URL, FONT_NAME)
-
-# DownloadしたフォントをMatplotlibに追加
-fm.fontManager.addfont(FONT_NAME)
-prop = fm.FontProperties(fname=FONT_NAME)
-plt.rcParams['font.family'] = prop.get_name()
-plt.rcParams['axes.unicode_minus'] = False
+import japanize_matplotlib  # これを追加するだけでMatplotlibが日本語に対応します
 
 st.set_page_config(page_title="トラクター・作業機 総合適合判定システム", layout="wide")
 
@@ -136,7 +118,7 @@ def save_tractor_preset():
             "f_area": st.session_state.v_f_area,
             "r_area": st.session_state.v_r_area
         }
-        st.toast(f"✅ {slot} の設定を保存したわ！")
+        st.toast(f"✅ {slot} の設定を保存しました")
 
 def save_implement_preset():
     slot = st.session_state.sel_i_slot
@@ -150,7 +132,7 @@ def save_implement_preset():
             "add_len": st.session_state.v_implement_len,
             "height": st.session_state.v_implement_height
         }
-        st.toast(f"✅ {slot} の設定を保存したわ！")
+        st.toast(f"✅ {slot} の設定を保存しました")
 
 def save_truck_preset():
     slot = st.session_state.sel_k_slot
@@ -162,7 +144,7 @@ def save_truck_preset():
             "bed_l": st.session_state.v_bed_length,
             "bed_w": st.session_state.v_bed_width
         }
-        st.toast(f"✅ {slot} の設定を保存したわ！")
+        st.toast(f"✅ {slot} の設定を保存しました")
 
 # ==========================================
 # 共通計算ロジック
@@ -249,7 +231,7 @@ with t_col2:
 st.markdown("---")
 
 # ==========================================
-# 選択肢エリア (スッキリ配置)
+# 選択肢エリア
 # ==========================================
 p_col1, p_col2, p_col3 = st.columns(3)
 
