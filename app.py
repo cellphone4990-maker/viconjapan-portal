@@ -2,13 +2,20 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import streamlit.components.v1 as components
+import matplotlib.font_manager as fm
 
-# 日本語フォントの設定
-try:
-    import japanize_matplotlib
-    japanize_matplotlib.japanize()  # ← 明示的に適用を実行！
-except Exception:
-    plt.rcParams['font.family'] = 'sans-serif'
+# Streamlit Cloud (Linux環境) に入っている日本語フォントを自動検索して適用
+fonts = [f.name for f in fm.fontManager.ttflist]
+japanese_fonts = [f for f in fonts if 'Gothic' in f or 'Mincho' in f or 'IPA' in f or 'Hiragino' in f or 'Yu' in f]
+
+if japanese_fonts:
+    plt.rcParams['font.family'] = japanese_fonts[0]
+else:
+    # Linux標準の日本語フォントを指定
+    plt.rcParams['font.family'] = 'DejaVu Sans'
+
+# マイナス記号などの文字化け対策
+plt.rcParams['axes.unicode_minus'] = False
 
 # 日本語フォント設定 (Matplotlib)
 plt.rcParams['font.family'] = 'Hiragino Sans'
