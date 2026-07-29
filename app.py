@@ -1,20 +1,26 @@
+import os
+import urllib.request
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import streamlit.components.v1 as components
 import matplotlib.font_manager as fm
 
-# 日本語フォントの自動読み込み設定
-fonts = [f.name for f in fm.fontManager.ttflist]
-japanese_fonts = [f for f in fonts if 'Gothic' in f or 'Mincho' in f or 'IPA' in f or 'Hiragino' in f or 'Yu' in f]
+# ==========================================
+# 日本語フォント設定 (フォント自動ダウンロード＆適用)
+# ==========================================
+FONT_NAME = "IPAexGothic.ttf"
+FONT_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/ipaexgothic/ipaexgothic.ttf"
 
-if japanese_fonts:
-    plt.rcParams['font.family'] = japanese_fonts[0]
+# フォントファイルが無ければダウンロード
+if not os.path.exists(FONT_NAME):
+    urllib.request.urlretrieve(FONT_URL, FONT_NAME)
 
+# DownloadしたフォントをMatplotlibに追加
+fm.fontManager.addfont(FONT_NAME)
+prop = fm.FontProperties(fname=FONT_NAME)
+plt.rcParams['font.family'] = prop.get_name()
 plt.rcParams['axes.unicode_minus'] = False
-
-# 日本語フォント設定 (Matplotlib)
-plt.rcParams['font.family'] = 'Hiragino Sans'
 
 st.set_page_config(page_title="トラクター・作業機 総合適合判定システム", layout="wide")
 
@@ -43,7 +49,7 @@ if "preset_trucks" not in st.session_state:
         "トラック3": {"name": "トラック3", "payload": 7000, "bed_h": 950, "bed_l": 6000, "bed_w": 2350}
     }
 
-# 初回起動時のフォーム数値初期化（すべて「1」をデフォルトロード）
+# 初回起動時のフォーム数値初期化
 if "first_init" not in st.session_state:
     st.session_state.first_init = True
     
