@@ -32,16 +32,37 @@ st.set_page_config(page_title="トラクター・作業機 総合適合判定シ
 
 if "preset_tractors" not in st.session_state:
     st.session_state.preset_tractors = {
-        "トラクター1": {"name": "トラクター1", "weight": 1500, "front_weight": 150, "wheelbase": 1600, "f_dist": 600, "r_pin": 500, "height": 1900, "width": 1400, "f_area": 200, "r_area": 400},
-        "トラクター2": {"name": "トラクター2", "weight": 2500, "front_weight": 300, "wheelbase": 2000, "f_dist": 800, "r_pin": 600, "height": 2400, "width": 1800, "f_area": 250, "r_area": 500},
-        "トラクター3": {"name": "トラクター3", "weight": 4200, "front_weight": 500, "wheelbase": 2400, "f_dist": 950, "r_pin": 750, "height": 2800, "width": 2200, "f_area": 350, "r_area": 700}
+        "NH T2.800": {
+            "name": "NH T2.800", "weight": 3450, "front_weight": 0, "wheelbase": 2250, 
+            "f_dist": 800, "r_pin": 1000, "height": 2615, 
+            "width": 1930, "f_area": 775, "r_area": 1150
+        },
+        "NH T4.75": {
+            "name": "NH T4.75", "weight": 3030, "front_weight": 0, "wheelbase": 2130, 
+            "f_dist": 800, "r_pin": 1000, "height": 2480, 
+            "width": 1920, "f_area": 775, "r_area": 1150
+        },
+        "NH T5.110": {
+            "name": "NH T5.110", "weight": 3970, "front_weight": 0, "wheelbase": 2540, 
+            "f_dist": 900, "r_pin": 1000, "height": 2500, 
+            "width": 2160, "f_area": 1000, "r_area": 1500
+        }
     }
 
 if "preset_implements" not in st.session_state:
     st.session_state.preset_implements = {
-        "作業機1": {"name": "作業機1", "dry_weight": 300, "total_weight": 350, "pin_dist": 400, "width": 1600, "add_len": 1200, "height": 1000},
-        "作業機2": {"name": "作業機2", "dry_weight": 700, "total_weight": 800, "pin_dist": 500, "width": 2200, "add_len": 1800, "height": 1200},
-        "作業機3": {"name": "作業機3", "dry_weight": 1200, "total_weight": 1400, "pin_dist": 650, "width": 2500, "add_len": 2200, "height": 1500}
+        "Gaspardo SR1000-12ST": {
+            "name": "Gaspardo SR1000-12ST", "dry_weight": 650, "total_weight": 1650, 
+            "pin_dist": 700, "add_len": 1520, "width": 2370, "height": 2470
+        },
+        "Vicon iXter A10 HOSA12": {
+            "name": "Vicon iXter A10 HOSA12", "dry_weight": 889, "total_weight": 1889, 
+            "pin_dist": 700, "add_len": 1360, "width": 2350, "height": 2560
+        },
+        "Vicon iXter B10 HC18": {
+            "name": "Vicon iXter B10 HC18", "dry_weight": 1383, "total_weight": 2383, 
+            "pin_dist": 800, "add_len": 1450, "width": 2500, "height": 3300
+        }
     }
 
 if "preset_trucks" not in st.session_state:
@@ -55,8 +76,8 @@ if "preset_trucks" not in st.session_state:
 if "first_init" not in st.session_state:
     st.session_state.first_init = True
     
-    t_init = st.session_state.preset_tractors["トラクター1"]
-    i_init = st.session_state.preset_implements["作業機1"]
+    t_init = st.session_state.preset_tractors["NH T2.800"]
+    i_init = st.session_state.preset_implements["Gaspardo SR1000-12ST"]
     k_init = st.session_state.preset_trucks["トラック1"]
     
     st.session_state.v_t_name = t_init["name"]
@@ -66,17 +87,17 @@ if "first_init" not in st.session_state:
     st.session_state.v_front_to_weight = t_init["f_dist"]
     st.session_state.v_rear_to_pin = t_init["r_pin"]
     st.session_state.v_t_body_height = t_init["height"]
-    st.session_state.v_t_body_width = t_init.get("width", 1400)
-    st.session_state.v_f_area = t_init.get("f_area", 200)
-    st.session_state.v_r_area = t_init.get("r_area", 400)
+    st.session_state.v_t_body_width = t_init.get("width", 1930)
+    st.session_state.v_f_area = t_init.get("f_area", 775)
+    st.session_state.v_r_area = t_init.get("r_area", 1150)
     
     st.session_state.v_i_name = i_init["name"]
     st.session_state.v_implement_dry_weight = i_init["dry_weight"]
     st.session_state.v_implement_total_weight = i_init["total_weight"]
     st.session_state.v_pin_to_implement = i_init["pin_dist"]
-    st.session_state.v_max_width = i_init["width"]
     st.session_state.v_implement_len = i_init["add_len"]
-    st.session_state.v_implement_height = i_init.get("height", 1000)
+    st.session_state.v_max_width = i_init["width"]
+    st.session_state.v_implement_height = i_init.get("height", 2470)
     
     st.session_state.v_k_name = k_init["name"]
     st.session_state.v_max_payload = k_init["payload"]
@@ -96,21 +117,21 @@ def load_tractor_preset():
         st.session_state.v_front_to_weight = t_data["f_dist"]
         st.session_state.v_rear_to_pin = t_data["r_pin"]
         st.session_state.v_t_body_height = t_data["height"]
-        st.session_state.v_t_body_width = t_data.get("width", 1400)
-        st.session_state.v_f_area = t_data.get("f_area", 200)
-        st.session_state.v_r_area = t_data.get("r_area", 400)
+        st.session_state.v_t_body_width = t_data.get("width", 1900)
+        st.session_state.v_f_area = t_data.get("f_area", 775)
+        st.session_state.v_r_area = t_data.get("r_area", 1150)
 
 def load_implement_preset():
     slot = st.session_state.sel_i_slot
     if slot in st.session_state.preset_implements:
         i_data = st.session_state.preset_implements[slot]
         st.session_state.v_i_name = i_data["name"]
-        st.session_state.v_implement_dry_weight = i_data.get("dry_weight", 300)
-        st.session_state.v_implement_total_weight = i_data.get("total_weight", 350)
+        st.session_state.v_implement_dry_weight = i_data.get("dry_weight", 650)
+        st.session_state.v_implement_total_weight = i_data.get("total_weight", 1650)
         st.session_state.v_pin_to_implement = i_data["pin_dist"]
-        st.session_state.v_max_width = i_data["width"]
         st.session_state.v_implement_len = i_data["add_len"]
-        st.session_state.v_implement_height = i_data.get("height", 1000)
+        st.session_state.v_max_width = i_data["width"]
+        st.session_state.v_implement_height = i_data.get("height", 2470)
 
 def load_truck_preset():
     slot = st.session_state.sel_k_slot
@@ -148,8 +169,8 @@ def save_implement_preset():
             "dry_weight": st.session_state.v_implement_dry_weight,
             "total_weight": st.session_state.v_implement_total_weight,
             "pin_dist": st.session_state.v_pin_to_implement,
-            "width": st.session_state.v_max_width,
             "add_len": st.session_state.v_implement_len,
+            "width": st.session_state.v_max_width,
             "height": st.session_state.v_implement_height
         }
         st.toast(f"✅ {slot} の設定を保存しました")
